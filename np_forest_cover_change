@@ -3,7 +3,7 @@ var wdpa_parks = ee.FeatureCollection("WCMC/WDPA/current/polygons"),
     global_forest_change = ee.Image("UMD/hansen/global_forest_change_2024_v1_12");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // Visualise the PAs
-// Map.addLayer(wdpa_parks);
+Map.addLayer(wdpa_parks);
 // Add the Global Forest Change (Hansen et al.) dataset
 // Map.addLayer(global_forest_change);
 // Auto set the scale for our calculations to 30m, the scale of the Hansen dataset
@@ -38,11 +38,11 @@ var areaGain = gain.gt(0).multiply(ee.Image.pixelArea()).multiply(treeCover)
               
 // Create a variable that has the polygons for just a few national parks and nature reserves
 var wdpa_parks = wdpa_parks.filter(ee.Filter.or(
-    ee.Filter.eq("NAME", "Yellowstone"),
-    ee.Filter.eq("NAME", "Sankuru"),
-    ee.Filter.eq("NAME", "Cairngorms"),
-    ee.Filter.eq("NAME", "Redwood")));
-    
+    ee.Filter.eq("NAME", "Yorkshire Dales"),
+    ee.Filter.eq("NAME", "North York Moors"),
+    ee.Filter.eq("NAME", "Lake District"),
+    ee.Filter.eq("NAME", "Northumberland");
+
 // Sum the values of loss pixels.
 var statsLoss = areaLoss.reduceRegions({
   reducer: ee.Reducer.sum(),
