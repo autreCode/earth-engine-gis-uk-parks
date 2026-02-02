@@ -38,7 +38,7 @@ var areaGain = gain.gt(0).multiply(ee.Image.pixelArea()).multiply(treeCover)
 
 // Clean parks db to only include designation "National Park" and avoid duplication entries
 wdpa_parks = wdpa_parks
-  .filter(ee.Filter.eq('DESIG_ENG', 'National Park'));
+  .filter(ee.Filter.eq("DESIG_ENG", "National Park"));
               
 // Create a variable that has the polygons for just a few national parks and nature reserves
 var wdpa_parks = wdpa_parks.filter(ee.Filter.or(
