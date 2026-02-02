@@ -42,3 +42,17 @@ var wdpa_parks = wdpa_parks.filter(ee.Filter.or(
     ee.Filter.eq("NAME", "Sankuru"),
     ee.Filter.eq("NAME", "Cairngorms"),
     ee.Filter.eq("NAME", "Redwood")));
+    
+// Sum the values of loss pixels.
+var statsLoss = areaLoss.reduceRegions({
+  reducer: ee.Reducer.sum(),
+  collection: parks,
+  scale: scale
+});
+
+// Sum the values of gain pixels.
+var statsGain = areaGain.reduceRegions({
+  reducer: ee.Reducer.sum(),
+  collection: parks,
+  scale: scale
+});
