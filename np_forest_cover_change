@@ -7,4 +7,16 @@ Map.addLayer(wdpa_parks);
 // Add the Global Forest Change (Hansen et al.) dataset
 Map.addLayer(global_forest_change);
 // Auto set the scale for our calculations to 30m, the scale of the Hansen dataset
-var scale = gfc.projection().nominalScale();
+var scale = global_forest_change.projection().nominalScale();
+
+// Create a variable for the original tree cover in 2000
+var treeCover = global_forest_change.select(['treecover2000']);
+
+// Convert tree cover layer - treeCover is in hundreds of hectares, but the loss and gain layers are just in hectares
+treeCover = treeCover.divide(100);
+
+// Create a variable for forest loss
+var loss = global_forest_change.select(['loss']);
+
+// Create a variable for forest gain
+var gain = global_forest_change.select(['gain']);
