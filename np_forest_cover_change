@@ -2,10 +2,10 @@
 var wdpa_parks = ee.FeatureCollection("WCMC/WDPA/current/polygons"),
     global_forest_change = ee.Image("UMD/hansen/global_forest_change_2024_v1_12");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-// Visualise the PAs - press "Run" to see the results
-Map.addLayer(wdpa_parks);
+// Visualise the PAs
+// Map.addLayer(wdpa_parks);
 // Add the Global Forest Change (Hansen et al.) dataset
-Map.addLayer(global_forest_change);
+// Map.addLayer(global_forest_change);
 // Auto set the scale for our calculations to 30m, the scale of the Hansen dataset
 var scale = global_forest_change.projection().nominalScale();
 
@@ -21,11 +21,17 @@ var gain = global_forest_change.select(['gain']);
 // Add the tree cover layer in light grey
 Map.addLayer(treeCover.updateMask(treeCover),
     {palette: ['D0D0D0', '00FF00'], max: 100}, 'Forest Cover');
-
 // Add the loss layer in pink
 Map.addLayer(loss.updateMask(loss),
             {palette: ['#BF619D']}, 'Loss');
-
 // Add the gain layer in yellow
 Map.addLayer(gain.updateMask(gain),
             {palette: ['#CE9E5D']}, 'Gain');
+
+// var units are no. of pixels, dividing by 1m means the final result is in km2
+var areaCover = treeCover.multiply(ee.Image.pixelArea())
+                .divide(1000000).select([0],["areacover"]);
+var areaLoss = loss.gt(0).multiply(ee.Image.pixelArea()).multiply(treeCover)
+              .divide(1000000).select([0],["arealoss"]);
+var areaGain = gain.gt(0).multiply(ee.Image.pixelArea()).multiply(treeCover)
+              .divide(1000000).select([0],["areagain"]);
