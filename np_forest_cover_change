@@ -35,3 +35,10 @@ var areaLoss = loss.gt(0).multiply(ee.Image.pixelArea()).multiply(treeCover)
               .divide(1000000).select([0],["arealoss"]);
 var areaGain = gain.gt(0).multiply(ee.Image.pixelArea()).multiply(treeCover)
               .divide(1000000).select([0],["areagain"]);
+              
+// Create a variable that has the polygons for just a few national parks and nature reserves
+var wdpa_parks = wdpa_parks.filter(ee.Filter.or(
+    ee.Filter.eq("NAME", "Yellowstone"),
+    ee.Filter.eq("NAME", "Sankuru"),
+    ee.Filter.eq("NAME", "Cairngorms"),
+    ee.Filter.eq("NAME", "Redwood")));
