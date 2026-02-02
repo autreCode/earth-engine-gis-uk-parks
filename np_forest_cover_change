@@ -41,7 +41,7 @@ var wdpa_parks = wdpa_parks.filter(ee.Filter.or(
     ee.Filter.eq("NAME", "Yorkshire Dales"),
     ee.Filter.eq("NAME", "North York Moors"),
     ee.Filter.eq("NAME", "Lake District"),
-    ee.Filter.eq("NAME", "Northumberland");
+    ee.Filter.eq("NAME", "Northumberland")));
 
 // Sum the values of loss pixels.
 var statsLoss = areaLoss.reduceRegions({
