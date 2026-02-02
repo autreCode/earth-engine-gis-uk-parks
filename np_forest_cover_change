@@ -46,13 +46,13 @@ var wdpa_parks = wdpa_parks.filter(ee.Filter.or(
 // Sum the values of loss pixels.
 var statsLoss = areaLoss.reduceRegions({
   reducer: ee.Reducer.sum(),
-  collection: parks,
+  collection: wdpa_parks,
   scale: scale
 });
 
 // Sum the values of gain pixels.
 var statsGain = areaGain.reduceRegions({
   reducer: ee.Reducer.sum(),
-  collection: parks,
+  collection: wdpa_parks,
   scale: scale
 });
