@@ -11,12 +11,21 @@ var scale = global_forest_change.projection().nominalScale();
 
 // Create a variable for the original tree cover in 2000
 var treeCover = global_forest_change.select(['treecover2000']);
-
 // Convert tree cover layer - treeCover is in hundreds of hectares, but the loss and gain layers are just in hectares
 treeCover = treeCover.divide(100);
-
 // Create a variable for forest loss
 var loss = global_forest_change.select(['loss']);
-
 // Create a variable for forest gain
 var gain = global_forest_change.select(['gain']);
+
+// Add the tree cover layer in light grey
+Map.addLayer(treeCover.updateMask(treeCover),
+    {palette: ['D0D0D0', '00FF00'], max: 100}, 'Forest Cover');
+
+// Add the loss layer in pink
+Map.addLayer(loss.updateMask(loss),
+            {palette: ['#BF619D']}, 'Loss');
+
+// Add the gain layer in yellow
+Map.addLayer(gain.updateMask(gain),
+            {palette: ['#CE9E5D']}, 'Gain');
