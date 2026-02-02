@@ -62,6 +62,7 @@ var statsGain = areaGain.reduceRegions({
 });
 
 // Initiate export of results table to GDrive csv (see Tasks tab to the right)
+// Results stored in penultimate column entitled 'sum'
 Export.table.toDrive({
   collection: statsLoss,
   description: 'NP_forest_loss'});
