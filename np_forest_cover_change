@@ -66,10 +66,14 @@ var statsGain = areaGain.reduceRegions({
 // Initiate export of results table to GDrive csv (see Tasks tab to the right)
 // Results stored in penultimate column entitled 'sum'
 // Note we select only the columns needed, due to the size of the file if .geo is included (contains the full geometry ie all the polygon coordinates for each national park boundary)
+// 'selectors' is required to force drop 'system:index' and '.geo' fields
 Export.table.toDrive({
   collection: statsLoss.select(["NAME", "GIS_AREA", "sum"]),
-  description: 'NP_forest_loss'});
-
+  description: 'NP_forest_loss',
+  fileFormat: 'CSV',
+  selectors: ["NAME", "GIS_AREA", "sum"]});
 Export.table.toDrive({
   collection: statsGain.select(["NAME", "GIS_AREA", "sum"]),
-  description: 'NP_forest_gain'});
+  description: 'NP_forest_gain',
+  fileFormat: 'CSV',
+  selectors: ["NAME", "GIS_AREA", "sum"]});
