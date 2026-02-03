@@ -47,26 +47,29 @@ var wdpa_parks = wdpa_parks.filter(ee.Filter.or(
     ee.Filter.eq("NAME", "Lake District"),
     ee.Filter.eq("NAME", "Northumberland")));
 
-// Sum the values of loss pixels & set sum column header (otherwise defults to 'sum')
+// Sum the values of loss pixels
+// Note tried setting column head values with '  reducer: ee.Reducer.sum().setOutputs(['SUM_GAIN_KM2']),'
+// however this caused issues in the subsequent R visualisation
 var statsLoss = areaLoss.reduceRegions({
-  reducer: ee.Reducer.sum().setOutputs(['SUM_LOSS_KM2']),
+  reducer: ee.Reducer.sum(),
   collection: wdpa_parks,
   scale: scale
 });
 
-// Sum the values of loss pixels & set sum column header (otherwise defults to 'sum')
+// Sum the values of gain pixels
 var statsGain = areaGain.reduceRegions({
-  reducer: ee.Reducer.sum().setOutputs(['SUM_GAIN_KM2']),
+  reducer: ee.Reducer.sum(),
   collection: wdpa_parks,
   scale: scale
 });
 
 // Initiate export of results table to GDrive csv (see Tasks tab to the right)
 // Results stored in penultimate column entitled 'sum'
+// Note we select only the columns needed, due to the size of the file if .geo is included (contains the full geometry ie all the polygon coordinates for each national park boundary)
 Export.table.toDrive({
-  collection: statsLoss,
+  collection: statsLoss.select(["NAME", "GIS_AREA", "sum"]),
   description: 'NP_forest_loss'});
 
 Export.table.toDrive({
-  collection: statsGain,
+  collection: statsGain.select(["NAME", "GIS_AREA", "sum"]),
   description: 'NP_forest_gain'});
